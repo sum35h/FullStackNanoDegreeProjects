@@ -39,8 +39,10 @@
 		</p>
 		{% endif %}
 	</div>
-	<div class="col-sm-6">
+	<div class="col-sm-4">
 		<img src="{{ artist.image_link }}" alt="Venue Image" />
+		<button type="button" class="btn btn-primary col-sm-4" onclick="location.href='/artists/{{artist.id}}/edit'">Edit</button>
+	
 	</div>
 </div>
 <section>

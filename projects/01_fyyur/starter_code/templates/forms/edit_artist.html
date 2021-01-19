@@ -1,6 +1,16 @@
 {% extends 'layouts/main.html' %}
 {% block title %}Edit Artist{% endblock %}
 {% block content %}
+<script>
+  window.onload = function(){
+   
+    seek_venue = document.getElementById('seeking_venue');
+    if (seek_venue.value=='y'){
+      const desc =document.getElementById('search_desc');
+      desc.style.display = 'block';
+    }
+  }
+</script>
   <div class="form-wrapper">
     <form class="form" method="post" action="/artists/{{artist.id}}/edit">
       <h3 class="form-heading">Edit artist <em>{{ artist.name }}</em></h3>
@@ -26,12 +36,48 @@
       <div class="form-group">
         <label for="genres">Genres</label>
         <small>Ctrl+Click to select multiple</small>
-        {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas', id=form.state, autofocus = true) }}
+        {{ form.genres(class_ = 'form-control', placeholder='Genres, separated by commas',  autofocus = true) }}
       </div>
+      <div class="form-group" >
+        <label for="seeking_venue">Seeking Venue</label>
+        {{ form.seeking_venue(autofocus = true)}}
+      </div>
+      <div class="form-group" id='search_desc' style='display : none'>
+        <label for="seeking_description">Seeking Description</label>
+        {{ form.seeking_description(class_ = 'form-control', placeholder='Describe what you are looking for',autofocus = true) }}
+
+      </div>
+      <script>
+        const talent =document.getElementById('seeking_venue');
+        const desc =document.getElementById('search_desc');
+        talent.onchange = function(e){
+         
+            value = e.target.checked;
+            
+            if (value == true){
+              desc.style.display='block';
+
+            }
+            else{
+              desc.style.display='none';
+            }
+       
+          }
+      </script>
+
       <div class="form-group">
           <label for="genres">Facebook Link</label>
-          {{ form.facebook_link(class_ = 'form-control', placeholder='http://', id=form.state, autofocus = true) }}
+          {{ form.facebook_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
         </div>
+        <div class="form-group">
+          <label for="websit_link">Website Link</label>
+          {{ form.website_link(class_ = 'form-control', placeholder='http://', autofocus = true) }}
+        </div>
+        <div class="form-group">
+          <label for="image_link">Image Link</label>
+          {{ form.image_link(class_ = 'form-control', placeholder='http://',  autofocus = true) }}
+        </div>
+      
       <input type="submit" value="Edit Artist" class="btn btn-primary btn-lg btn-block">
     </form>
   </div>

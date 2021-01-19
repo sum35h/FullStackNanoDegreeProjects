@@ -5,11 +5,13 @@
 	<div class="col-sm-6">
 		<h1 class="monospace">
 			{{ venue.name }}
+			
 		</h1>
 		<p class="subtitle">
 			ID: {{ venue.id }}
+			<div class="genres">
 		</p>
-		<div class="genres">
+		
 			{% for genre in venue.genres %}
 			<span class="genre">{{ genre }}</span>
 			{% endfor %}
@@ -42,10 +44,40 @@
 		</p>
 		{% endif %}
 	</div>
+
+	<div class="col-sm-4">
+	
+		<button type="button" class="btn btn-primary col-sm-4" onclick="location.href='/venues/{{venue.id}}/edit'">Edit Venue</button>
+		<button type="button"  venue_id="{{ venue.id }}" id="delete_button" class="btn btn-danger col-sm-4" >Delete Venue</button>
+		<script>
+			
+			const del_but=document.getElementById('delete_button');
+			del_but.onclick=function(){
+				console.log('click');
+				venue_id = del_but.getAttribute('venue_id');
+				fetch('/venues/'+venue_id,
+				{
+				method:'DELETE'
+				}
+				).then(function(response){
+                            return response.json();
+                        }).then(function(jsonResponse){
+                            if (jsonResponse['success']){
+                                window.location.href = '/venues';
+                        }}).catch(function(){
+							console.log('error');
+                        });
+			}
+                
+		</script>
+	</div>
 	<div class="col-sm-6">
 		<img src="{{ venue.image_link }}" alt="Venue Image" />
+	
 	</div>
+
 </div>
+
 <section>
 	<h2 class="monospace">{{ venue.upcoming_shows_count }} Upcoming {% if venue.upcoming_shows_count == 1 %}Show{% else %}Shows{% endif %}</h2>
 	<div class="row">
