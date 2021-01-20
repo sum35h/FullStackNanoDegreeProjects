@@ -13,7 +13,6 @@ class Show(db.Model):
   venue_id = db.Column(db.Integer,db.ForeignKey('Venue.id'))
   artist_id = db.Column(db.Integer,db.ForeignKey('Artist.id'))
   start_time = db.Column(db.DateTime)
-  upcomin = db.Column(db.Boolean,default=True)
 
 
 class Location(db.Model):
