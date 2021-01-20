@@ -96,8 +96,8 @@ def show_venue(venue_id):
   venue = Venue.query.get(venue_id)
   current_time = datetime.utcnow()
 
-  past_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.start_time<=current_time).all()
-  upcoming_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.start_time>current_time).all()
+  past_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.start_time<=current_time).order_by(Show.start_time).all()
+  upcoming_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.start_time>current_time).order_by(Show.start_time).all()
   data={
     "id": venue_id,
     "name": venue.name,
@@ -240,8 +240,8 @@ def search_artists():
 def show_artist(artist_id):
   artist = Artist.query.filter(Artist.id==artist_id).first_or_404()
   current_time = datetime.utcnow()
-  past_shows = Show.query.join(Artist, Artist.id==Show.artist_id).filter(Show.start_time<=current_time,Artist.id==artist.id).all()
-  upcoming_shows = Show.query.join(Artist,Artist.id==Show.artist_id).filter(Show.start_time>current_time,Artist.id==artist.id).all()
+  past_shows = Show.query.join(Artist, Artist.id==Show.artist_id).filter(Show.start_time<=current_time,Artist.id==artist.id).order_by(Show.start_time).all()
+  upcoming_shows = Show.query.join(Artist,Artist.id==Show.artist_id).filter(Show.start_time>current_time,Artist.id==artist.id).order_by(Show.start_time).all()
   data={
     "id": artist.id,
     "name": artist.name,
