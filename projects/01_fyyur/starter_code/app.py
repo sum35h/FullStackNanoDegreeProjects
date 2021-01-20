@@ -66,10 +66,8 @@ def venues():
       entry['state']=location.state
       venues_list=list()
       for venue in location.venues:
-        upcoming_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.upcomin==True).all()
         venues_list.append({'id': venue.id,
                             'name': venue.name,
-                            "num_upcoming_shows": len(upcoming_shows),
                           })
       entry['venues']=venues_list
       data.append(entry)
