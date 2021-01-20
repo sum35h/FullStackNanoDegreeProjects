@@ -8,12 +8,12 @@ import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for, jsonify
 from flask_moment import Moment
 from models import *
-
 from flask_migrate import Migrate
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
+from datetime import datetime
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -94,8 +94,10 @@ def search_venues():
 @app.route('/venues/<int:venue_id>')
 def show_venue(venue_id):
   venue = Venue.query.get(venue_id)
-  past_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Show.upcomin==False,Venue.id==venue.id).all()
-  upcoming_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Show.upcomin==True,Venue.id==venue.id).all()
+  current_time = datetime.utcnow()
+
+  past_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.start_time<=current_time).all()
+  upcoming_shows = Show.query.join(Venue,Venue.id==Show.venue_id).filter(Venue.id==venue.id,Show.start_time>current_time).all()
   data={
     "id": venue_id,
     "name": venue.name,
@@ -237,8 +239,9 @@ def search_artists():
 @app.route('/artists/<int:artist_id>')
 def show_artist(artist_id):
   artist = Artist.query.filter(Artist.id==artist_id).first_or_404()
-  past_shows = Show.query.join(Artist, Artist.id==Show.artist_id).filter(Show.upcomin==False,Artist.id==artist.id).all()
-  upcoming_shows = Show.query.join(Artist,Artist.id==Show.artist_id).filter(Show.upcomin==True).all()
+  current_time = datetime.utcnow()
+  past_shows = Show.query.join(Artist, Artist.id==Show.artist_id).filter(Show.start_time<=current_time,Artist.id==artist.id).all()
+  upcoming_shows = Show.query.join(Artist,Artist.id==Show.artist_id).filter(Show.start_time>current_time,Artist.id==artist.id).all()
   data={
     "id": artist.id,
     "name": artist.name,
