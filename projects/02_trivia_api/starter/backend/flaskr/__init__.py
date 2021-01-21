@@ -34,10 +34,13 @@ def create_app(test_config=None):
   '''
   @app.route('/categories',methods=['GET'])
   def fetch_categories():
-    categories=Category.query.all()
+    try:
+      categories=Category.query.all()
 
-    return jsonify({"success":True,
-                  "categories":categories})
+      return jsonify({"success":True,
+                    "categories":categories})
+    except:
+      abort(404)
 
   '''
   @TODO: 
