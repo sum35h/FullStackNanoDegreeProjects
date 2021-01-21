@@ -3,6 +3,7 @@ from flask_wtf import Form
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField,TextField,BooleanField
 from wtforms.validators import DataRequired, AnyOf, URL
 
+
 class ShowForm(Form):
     artist_id = StringField(
         'artist_id'
@@ -25,7 +26,7 @@ class VenueForm(Form):
     )
     state = SelectField(
         'state', validators=[DataRequired()],
-        choices=[
+        choices=[# enum restriction implemented
             ('AL', 'AL'),
             ('AK', 'AK'),
             ('AZ', 'AZ'),
@@ -82,16 +83,21 @@ class VenueForm(Form):
     address = StringField(
         'address', validators=[DataRequired()]
     )
+    def validate_phone( phone):
+        us_phone_num = '^([0-9]{3})[-][0-9]{3}[-][0-9]{4}$'
+        match = re.search(us_phone_num, phone.data)
+        if not match:
+            raise ValidationError('Error, phone number must be in format xxx-xxx-xxxx')
+
     phone = StringField(
-        'phone'
+        'phone',validators=[DataRequired(),validate_phone]
     )
     image_link = StringField(
-        'image_link'
+        'image_link',validators=[URL()]
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
         'genres', validators=[DataRequired()],
-        choices=[
+        choices=[# enum restriction implemented
             ('Alternative', 'Alternative'),
             ('Blues', 'Blues'),
             ('Classical', 'Classical'),
@@ -137,7 +143,7 @@ class ArtistForm(Form):
     )
     state = SelectField(
         'state', validators=[DataRequired()],
-        choices=[
+        choices=[# enum restriction implemented
             ('AL', 'AL'),
             ('AK', 'AK'),
             ('AZ', 'AZ'),
@@ -191,17 +197,21 @@ class ArtistForm(Form):
             ('WY', 'WY'),
         ]
     )
+    def validate_phone(phone):
+        us_phone_num = '^([0-9]{3})[-][0-9]{3}[-][0-9]{4}$'
+        match = re.search(us_phone_num, phone.data)
+        if not match:
+            raise ValidationError('Error, phone number must be in format xxx-xxx-xxxx')
+
     phone = StringField(
-        # TODO implement validation logic for state
-        'phone'
+      'phone',validators=[DataRequired(),validate_phone]
     )
     image_link = StringField(
         'image_link'
     )
     genres = SelectMultipleField(
-        # TODO implement enum restriction
         'genres', validators=[DataRequired()],
-        choices=[
+        choices=[ # enum restriction implemented
             ('Alternative', 'Alternative'),
             ('Blues', 'Blues'),
             ('Classical', 'Classical'),
@@ -224,7 +234,7 @@ class ArtistForm(Form):
         ]
     )
     facebook_link = StringField(
-        # TODO implement enum restriction
+        
         'facebook_link', validators=[URL()]
     )
     website_link = StringField(
@@ -238,4 +248,3 @@ class ArtistForm(Form):
     seeking_description = TextField(
         'seeking_description',
     )
-# TODO IMPLEMENT NEW ARTIST FORM AND NEW SHOW FORM
