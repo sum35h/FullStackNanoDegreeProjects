@@ -159,8 +159,11 @@ def create_venue_submission():
 
   genres_list = request.form.getlist('genres')
   genres=list()
-  for genre in genres_list:
-    genres.append(Genre.query.filter(Genre.name==genre).first())
+  for genre_name in genres_list:
+    genre =Genre.query.filter(Genre.name==genre_name).first()
+    if genre is None:
+      genre = Genre(name=genre_name)
+    genres.append(genre)
 
 
   error = False
@@ -312,9 +315,14 @@ def edit_artist_submission(artist_id):
     artist.seeking_description = None
 
   genres_list = request.form.getlist('genres')
-  genres = list()
-  for genre in genres_list:
-    genres.append(Genre.query.filter(Genre.name==genre).first())
+  genres=list()
+  for genre_name in genres_list:
+    genre =Genre.query.filter(Genre.name==genre_name).first()
+    if genre is None:
+      genre = Genre(name=genre_name)
+    genres.append(genre)
+
+
   artist.a_genres = genres
 
   try:
@@ -373,8 +381,13 @@ def edit_venue_submission(venue_id):
 
   genres_list = request.form.getlist('genres')
   genres=list()
-  for genre in genres_list:
-    genres.append(Genre.query.filter(Genre.name==genre).first())
+  for genre_name in genres_list:
+    genre =Genre.query.filter(Genre.name==genre_name).first()
+    if genre is None:
+      genre = Genre(name=genre_name)
+    genres.append(genre)
+
+
 
   error = False
   venue = Venue.query.filter_by(id=venue_id).first_or_404()
@@ -437,10 +450,14 @@ def create_artist_submission():
     artist.seeking_description = None
 
   genres_list = request.form.getlist('genres')
-  genres = list()
-  for genre in genres_list:
-    genres.append(Genre.query.filter(Genre.name==genre).first())
-  artist.a_genres = genres
+  genres=list()
+  for genre_name in genres_list:
+    genre =Genre.query.filter(Genre.name==genre_name).first()
+    if genre is None:
+      genre = Genre(name=genre_name)
+    genres.append(genre)
+
+
 
   try:
     db.session.add(artist)
