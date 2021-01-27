@@ -11,3 +11,20 @@ venv
 .Trashes
 ehthumbs.db
 Thumbs.db
+.bin
+
+### react ###
+.DS_*
+*.log
+logs
+**/*.backup.*
+**/*.back.*
+
+node_modules
+bower_components
+
+*.sublime*
+
+psd
+thumb
+sketch
