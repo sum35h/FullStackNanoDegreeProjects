@@ -82,7 +82,7 @@ class FormView extends Component {
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
-              <option value="4">4</option>
+              <option value="4">4</option>                                          
               <option value="5">5</option>
             </select>
           </label>
@@ -91,7 +91,7 @@ class FormView extends Component {
             <select name="category" onChange={this.handleChange}>
               {Object.keys(this.state.categories).map(id => {
                   return (
-                    <option key={id} value={id}>{this.state.categories[id]}</option>
+                    <option value={id}>{this.state.categories[id]}</option>
                   )
                 })}
             </select>
