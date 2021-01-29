@@ -11,3 +11,4 @@ venv
 .Trashes
 ehthumbs.db
 Thumbs.db
+projects/03_coffee_shop_full_stack/starter_code/backend/src/database/database.db
